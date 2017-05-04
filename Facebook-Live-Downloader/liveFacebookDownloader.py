@@ -27,19 +27,32 @@ def videoDownloader(videoUrl):
 def facebookLiveDownloader(url, usr, pwd):
     webDriver = webdriver.Chrome()
     webDriver.get(url)
-    elem = webDriver.find_element_by_name("email")
-    elem.send_keys(usr)
-    elem = webDriver.find_element_by_name("pass")
-    elem.send_keys(pwd)
-    elem.send_keys(Keys.RETURN)
-
     wait = WebDriverWait(webDriver, 10)
+    wantedLogin = 1
 
     try:
-        element_present = EC.presence_of_element_located((By.CLASS_NAME, 'widePic'))
-        wait.until(element_present)
+        webDriver.find_element_by_class_name("mfsm")
+        wantedLogin=1
     except:
-        print("login too long")
+        wantedLogin=0
+
+
+    if wantedLogin:
+        elem = webDriver.find_element_by_name("email")
+        elem.send_keys(usr)
+        elem = webDriver.find_element_by_name("pass")
+        elem.send_keys(pwd)
+        elem.send_keys(Keys.RETURN)
+
+    while 1:
+        try:
+            element_present = EC.presence_of_element_located((By.CLASS_NAME, 'widePic'))
+            wait.until(element_present)
+            break
+        except:
+            print("waiting.. for live end")
+            webDriver.refresh()
+
     while 1:
         videoBox = webDriver.find_element_by_class_name("widePic")
         videoBox.click()
