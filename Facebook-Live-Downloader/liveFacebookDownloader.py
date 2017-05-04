@@ -24,9 +24,7 @@ def videoDownloader(videoUrl):
     except Exception as e:
         print(e)
 
-def facebookLiveDownloader(url):
-    usr = "jo06942@gmail.com"
-    pwd = "facebook0845916998Ntsd"
+def facebookLiveDownloader(url, usr, pwd):
     webDriver = webdriver.Chrome()
     webDriver.get(url)
     elem = webDriver.find_element_by_name("email")
@@ -61,4 +59,6 @@ def facebookLiveDownloader(url):
 
 
 if __name__ == '__main__':
-    facebookLiveDownloader("https://m.facebook.com/groups/520603828139097/permalink/677999315732880/")
+    user = ""
+    pwd = ""
+    facebookLiveDownloader("https://m.facebook.com/groups/520603828139097/permalink/677999315732880/", user, pwd)
