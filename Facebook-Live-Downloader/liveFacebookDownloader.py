@@ -4,14 +4,22 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 
+import os
+
+
+
 import urllib
 
 def videoDownloader(videoUrl):
     name = (videoUrl.split(".")[-2]).replace("/", "")
-    name=name+".mp4"
+    filename=name+".mp4"
+    cwd = os.getcwd()
+    path = cwd+"/downloads/videos/"
+    fullpath = os.path.join(path, filename)
     try:
         print("starts Downloading :"+videoUrl +"...\n")
-        urllib.request.urlretrieve(videoUrl, name)
+        print("download to :"+fullpath)
+        urllib.request.urlretrieve(videoUrl, fullpath)
         print("Download completed..!!")
     except Exception as e:
         print(e)
