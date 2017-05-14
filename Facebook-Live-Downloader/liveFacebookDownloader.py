@@ -10,9 +10,9 @@ import os
 
 import urllib
 
-def videoDownloader(videoUrl):
+def videoDownloader(videoUrl, titleName):
     name = (videoUrl.split(".")[-2]).replace("/", "")
-    filename=name+".mp4"
+    filename = titleName+"-"+name+".mp4"
     cwd = os.getcwd()
     path = cwd+"/downloads/videos/"
     fullpath = os.path.join(path, filename)
@@ -26,16 +26,18 @@ def videoDownloader(videoUrl):
 
 def facebookLiveDownloader(url, usr, pwd):
     webDriver = webdriver.Chrome()
+    url = url.replace("www.","m.")
     webDriver.get(url)
     wait = WebDriverWait(webDriver, 10)
     wantedLogin = 1
 
+
     try:
+        # webDriver.find_element_by_class_name("_3-rn btn btnC mfss touchable")
         webDriver.find_element_by_class_name("mfsm")
         wantedLogin=1
     except:
         wantedLogin=0
-
 
     if wantedLogin:
         elem = webDriver.find_element_by_name("email")
@@ -62,7 +64,8 @@ def facebookLiveDownloader(url, usr, pwd):
             wait.until(element_present)
             videoUrl = webDriver.find_element_by_id('mInlineVideoPlayer').get_property("src")
             print("Video url is ready! at :"+videoUrl)
-            videoDownloader(videoUrl)
+            videoDownloader(videoUrl, webDriver.title)
+            webDriver.close()
             break
         except:
             print("Loading took too much time!")
